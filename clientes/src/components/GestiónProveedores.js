@@ -39,16 +39,25 @@ const GestionProveedores = () => {
       Swal.fire("Error", "No se puede actualizar un proveedor sin un ID válido", "error");
     }
   };
+// Función para agregar un nuevo proveedor
+const add = () => {
+  // Hago una solicitud POST a la ruta del servidor que maneja la creación de proveedores
+  Axios.post("http://localhost:3001/prveeodor/create", formData)
+    .then(() => {
+      // Si la solicitud es exitosa, llamo a la función para obtener la lista actualizada de proveedores
+      obtenerProveedores();
 
-  const add = () => {
-    Axios.post("http://localhost:3001/proveedor/create", formData)
-      .then(() => {
-        obtenerProveedores();
-        limpiarCampos();
-        Swal.fire("Registro exitoso!", "El proveedor fue registrado con éxito", "success");
-      })
-      .catch((error) => console.error("Error al registrar proveedor:", error));
-  };
+      // Llamo a la función que limpia los campos del formulario
+      limpiarCampos();
+
+      // Muestro una alerta con SweetAlert para informar al usuario que el proveedor fue registrado con éxito
+      Swal.fire("Registro exitoso!", "El proveedor fue registrado con éxito", "success");
+    })
+    .catch((error) => 
+      // Si ocurre algún error, lo imprimo en la consola
+      console.error("Error al registrar proveedor:", error)
+    );
+};
 
   // Función para eliminar un proveedor con confirmación
   const deleteProveedor = (proveedor) => {
